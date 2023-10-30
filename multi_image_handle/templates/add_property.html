@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="width: 50%;margin: auto;">
+        <form method="post" style="display: flex;flex-direction: column;gap: 10px;" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="name">Property Name</label>
+            <input type="text" name="name" id="name">
+            <label for="price">Price</label>
+            <input type="number" name="price" id="price">
+            <label for="images">Images</label>
+            <input type="file" name="images" id="images" multiple accept=".png,.jpg,.jpeg,.gif">
+            <button type="submit">Submit</button>
+        </form>
+
+    </div>
+    <div>
+        {% if data %}
+
+        {% for property in data %}
+        <div style="border: solid chocolate 2px;margin: 10px;padding: 8px;">
+            <div>
+                <h2>{{ property.name }}</h2>
+                <p>Price: ${{ property.price }}</p>
+                <div>
+                    {% for image in property.propertyimages_set.all %}
+                    <img width="400px" height="200" style="border: solid gray 1px;border-radius: 5px;"
+                        src="{{ image.image.url }}" alt="Property Image">
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
